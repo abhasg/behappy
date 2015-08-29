@@ -48,13 +48,13 @@ ActiveRecord::Schema.define(version: 20150829143209) do
   add_index "images", ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id", using: :btree
 
   create_table "user_details", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.string   "name",       limit: 255
-    t.date     "dob"
-    t.integer  "contact",    limit: 4
-    t.string   "gender",     limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "user_id",            limit: 4
+    t.integer  "imageable_id",       limit: 4
+    t.string   "imageable_type",     limit: 255
+    t.integer  "absolute_happy_q",   limit: 4
+    t.integer  "calculated_happy_q", limit: 4
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "users", force: :cascade do |t|
