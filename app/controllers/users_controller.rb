@@ -30,7 +30,6 @@ class UsersController < ApplicationController
           @token = user.generate_authentication_token
           render "users/social_login.json.jbuilder"
         else
-          binding.pry
           error_with_message(error_messages_from_model(user), 400)
         end
       end
