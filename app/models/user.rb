@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :images, :as => :imageable, dependent: :destroy
+  has_many :fb_images
 
   def generate_authentication_token
     if !auth_token_expired? && authentication_token.present?
@@ -26,7 +27,7 @@ class User < ActiveRecord::Base
 
   def auth_token_expired?
     if authentication_token.present? && authentication_token_valid_till.present?
-      if Time.zone.parse(authentication_token_valid_till) >= Time.zone.now
+      if authentication_token_valid_till >= Time.zone.now
         false
       else
         true

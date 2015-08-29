@@ -30,7 +30,6 @@ class UsersController < ApplicationController
           @token = user.generate_authentication_token
           render "users/social_login.json.jbuilder"
         else
-          binding.pry
           error_with_message(error_messages_from_model(user), 400)
         end
       end
@@ -38,6 +37,20 @@ class UsersController < ApplicationController
   end
 
   def sync
-
+    ensure_params(:access_token) and return
+    user = User.where(:authentication_token => params[:access_token]).first
+    if user
+      begin
+        @graph = Koala::Facebook::API.new(user.fb_token)
+      rescue
+        Rails.logger.error(e.message)
+        error_with_message(e.message, 500)
+      end
+      @images = @graph.get_object("me/photos")
+      FbImage.sync_data(@images,user)
+    else
+      error_with_message("User not found", 400)
+    end
+    render "users/sync.json.jbuilder"
   end
 end

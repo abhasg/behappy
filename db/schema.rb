@@ -11,7 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150829131556) do
+ActiveRecord::Schema.define(version: 20150829143209) do
+
+  create_table "fb_images", force: :cascade do |t|
+    t.integer  "fb_id",            limit: 8
+    t.integer  "from",             limit: 8
+    t.string   "from_name",        limit: 255
+    t.datetime "photo_created_at"
+    t.text     "images",           limit: 65535
+    t.text     "picture",          limit: 65535
+    t.integer  "place_id",         limit: 8
+    t.string   "place_name",       limit: 255
+    t.text     "place_location",   limit: 65535
+    t.text     "source",           limit: 65535
+    t.integer  "original_height",  limit: 4
+    t.integer  "original_width",   limit: 4
+    t.text     "tags",             limit: 65535
+    t.text     "comments",         limit: 65535
+    t.text     "links",            limit: 65535
+    t.integer  "user_id",          limit: 4
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
 
   create_table "images", force: :cascade do |t|
     t.integer  "imageable_id",        limit: 4

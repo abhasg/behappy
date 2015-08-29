@@ -1,0 +1,1 @@
+json.fb_images current_user.fb_images, :id, :images, :source, :original_height, :original_width

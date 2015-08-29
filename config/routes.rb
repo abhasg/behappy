@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :users, :only => [] do
     collection do
       post 'social_login'
+      post 'sync'
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.
