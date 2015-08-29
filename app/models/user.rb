@@ -23,4 +23,16 @@ class User < ActiveRecord::Base
       return token, self.authentication_token_valid_till
     end
   end
+
+  def auth_token_expired?
+    if authentication_token.present? && authentication_token_valid_till.present?
+      if Time.zone.parse(authentication_token_valid_till) >= Time.zone.now
+        false
+      else
+        true
+      end
+    else
+      true
+    end
+  end
 end
