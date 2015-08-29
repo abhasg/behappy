@@ -1,0 +1,6 @@
+development:
+  access_key_id: AKIAITIXMPC5A7D34PGQ
+  bucket: zoomcar-dev
+  secret_access_key: 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
+  s3_host_name: s3-ap-southeast-1.amazonaws.com
+  hash_secret: c0e367f53f4192f9b440a36ae112daf2cdeedf2fec17a826

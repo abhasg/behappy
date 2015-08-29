@@ -53,4 +53,40 @@ class UsersController < ApplicationController
     end
     render "users/sync.json.jbuilder"
   end
+
+  def images
+    @images = Image.where("user_id = ?",current_user.id)
+    @image_path = params[:image_path]
+    if request.get?
+      render "users/images_get.json.jbuilder"
+    elsif request.post?
+      if params[:image_data].present? && CommonHelper::ALLOWED_IMAGE_FORMATS.include?(params[:image_format].strip.downcase)
+        @image = Image.new
+        @image.imageable_id = current_user.id
+        @image.imageable_type = 'User'
+
+        temp_file_name = "tmp/uploads/#{SecureRandom.hex(6).to_s}"
+        temp_file_name += "."+params[:image_format].strip.downcase
+        temp_image_data = params[:image_data]
+
+        #Decoding the temp image data
+        File.open(Rails.root.join(temp_file_name),"wb") do |file|
+          file.binmode
+          file.write(Base64.decode64(temp_image_data))
+        end
+
+        @image.avatar =  File.open(Rails.root.join(temp_file_name))
+        if @image.save
+          File.delete(Rails.root.join(temp_file_name))
+          render "users/images_post.json.jbuilder"
+        else
+          File.delete(Rails.root.join(temp_file_name))
+          error_with_message(error_messages_from_model(@image), 400)
+        end
+        #grab the image and pop it into the database
+      else
+        error_with_message("Image Data has not be passed or format not allowed", 400)
+      end
+    end
+  end
 end
