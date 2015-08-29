@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :images, :as => :imageable, dependent: :destroy
   has_many :fb_images
+  has_one :user_detail
 
   def generate_authentication_token
     if !auth_token_expired? && authentication_token.present?
